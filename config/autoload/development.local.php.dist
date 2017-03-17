@@ -1,0 +1,53 @@
+<?php
+/**
+ * Local Configuration Override for DEVELOPMENT MODE.
+ *
+ * This configuration override file is for providing configuration to use while
+ * in development mode. Run:
+ *
+ * <code>
+ * $ composer development-enable
+ * </code>
+ *
+ * from the project root to copy this file to development.local.php and enable
+ * the settings it contains.
+ *
+ * You may also create files matching the glob pattern `{,*.}{global,local}-development.php`.
+ */
+
+use Doctrine\DBAL\Driver\PDOMySql\Driver;
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+
+return [
+    'doctrine' => [
+        'connection' => [
+            'orm_default' => [
+                'driverClass' => Driver::class,
+                'params' => [
+                                    'host' => 'localhost',
+                                    'port' => '3306',
+                                    'user' => 'root',
+                                    'password' => '',
+                                    'dbname' => 'moje_szkolenie_zf3',
+                                ],
+            ],
+        ],
+        'driver' => [
+            'Doctrine_driver' => [
+                'class' => AnnotationDriver::class,
+                'cache' => 'array',
+                'paths' => [
+                    __DIR__ . '/../../module/Application/src/Entity',
+                ],
+            ],
+            'orm_default' => [
+                'drivers' => [
+                    'Application\\Entity' => 'Doctrine_driver',
+                ],
+            ],
+        ],
+    ],
+    'view_manager' => [
+        'display_exceptions' => true,
+    ],
+];
