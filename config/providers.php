@@ -14,9 +14,9 @@ return [
         'graphApiVersion' => 'v2.8'
     ],
     'google' => [
-        'clientId' => '171739267348-a9iq068th25opq6itdgea63qj8c6326k.apps.googleusercontent.com',
-        'clientSecret' => 'cCeql-sXixl__DL03YWTuU7x',
+        'clientId' => 'id',
+        'clientSecret' => 'secret',
         'redirectUri' => 'https://' . $_SERVER['HTTP_HOST'] . '/auth/callback/google',
-        'hostedDomain' => 'https://zf3d.pl'
+        'hostedDomain' => 'https://' . $_SERVER['HTTP_HOST']'
     ]
 ];
