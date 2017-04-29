@@ -1,9 +1,8 @@
 <?= $this->doctype() ?>
-
-<html lang="en">
+<html lang="<?= LOCALE ?>">
 <head>
     <meta charset="utf-8">
-    <?= $this->headTitle('ZF Skeleton Application')->setSeparator(' - ')->setAutoEscape(false) ?>
+    <?= $this->headTitle('Paweł Mleczko - admin panel')->setSeparator(' - ')->setAutoEscape(false) ?>
 
     <?= $this->headMeta()
         ->appendName('viewport', 'width=device-width, initial-scale=1.0')
@@ -13,19 +12,47 @@
     <!-- Le styles -->
     <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'])
         ->prependStylesheet($this->basePath('css/style.css'))
-        ->prependStylesheet($this->basePath('css/plugins/toastr/toastr.min.css'))
         ->prependStylesheet($this->basePath('css/animate.css'))
+        ->prependStylesheet($this->basePath('css/inspiration.css'))
+        ->prependStylesheet($this->basePath('css/plugins/summernote/summernote-bs3.css'))
+        ->prependStylesheet($this->basePath('css/plugins/summernote/summernote.css'))
+        ->prependStylesheet($this->basePath('css/plugins/iCheck/custom.css'))
+        ->prependStylesheet($this->basePath('css/plugins/ladda/ladda-themeless.min.css'))
+        ->prependStylesheet($this->basePath('css/plugins/select2/select2.min.css'))
+        ->prependStylesheet($this->basePath('css/plugins/sweetalert/sweetalert.css'))
+        ->prependStylesheet($this->basePath('css/plugins/switchery/switchery.css'))
+        ->prependStylesheet($this->basePath('css/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css'))
+        ->prependStylesheet($this->basePath('css/plugins/dataTables/datatables.min.css'))
+        ->prependStylesheet($this->basePath('css/plugins/toastr/toastr.min.css'))
         ->prependStylesheet($this->basePath('font-awesome/css/font-awesome.css'))
         ->prependStylesheet($this->basePath('css/bootstrap.min.css'))
     ?>
 
     <!-- Scripts -->
     <?= $this->headScript()
-        ->prependFile($this->basePath('js/plugins/pace/pace.min.js'))
         ->prependFile($this->basePath('js/inspinia.js'))
+        ->prependFile($this->basePath('js/plugins/summernote/summernote.min.js'))
+        ->prependFile($this->basePath('js/plugins/pace/pace.min.js'))
+        ->prependFile($this->basePath('js/plugins/i18next/i18next.min.js'))
+        ->prependFile($this->basePath('js/plugins/ladda/ladda.jquery.min.js'))
+        ->prependFile($this->basePath('js/plugins/ladda/ladda.min.js'))
+        ->prependFile($this->basePath('js/plugins/ladda/spin.min.js'))
+        ->prependFile($this->basePath('js/plugins/iCheck/icheck.min.js'))
+        ->prependFile($this->basePath('js/plugins/slimscroll/jquery.slimscroll.min.js'))
+        ->prependFile($this->basePath('js/plugins/flot/jquery.flot.tooltip.min.js'))
+        ->prependFile($this->basePath('js/plugins/flot/jquery.flot.time.js'))
+        ->prependFile($this->basePath('js/plugins/flot/jquery.flot.pie.js'))
+        ->prependFile($this->basePath('js/plugins/flot/jquery.flot.resize.js'))
+        ->prependFile($this->basePath('js/plugins/flot/jquery.flot.js'))
+        ->prependFile($this->basePath('js/plugins/select2/select2.full.min.js'))
+        ->prependFile($this->basePath('js/plugins/sweetalert/sweetalert.min.js'))
+        ->prependFile($this->basePath('js/plugins/switchery/switchery.js'))
+        ->prependFile($this->basePath('js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js'))
+        ->prependFile($this->basePath('js/plugins/dataTables/responsive.js'))
+        ->prependFile($this->basePath('js/plugins/dataTables/datatables.min.js'))
+        ->prependFile($this->basePath('js/plugins/toastr/toastr.min.js'))
         ->prependFile($this->basePath('js/plugins/slimscroll/jquery.slimscroll.min.js'))
         ->prependFile($this->basePath('js/plugins/metisMenu/jquery.metisMenu.js'))
-        ->prependFile($this->basePath('js/plugins/toastr/toastr.min.js'))
         ->prependFile($this->basePath('js/bootstrap.min.js'))
         ->prependFile($this->basePath('js/jquery-3.1.1.min.js'))
     ?>
@@ -54,6 +81,7 @@
         function getCookie(cname) {
             var name = cname + "=";
             var decodedCookie = decodeURIComponent(document.cookie);
+//            console.log(decodedCookie);
             var ca = decodedCookie.split(';');
             for(var i = 0; i <ca.length; i++) {
                 var c = ca[i];
@@ -80,7 +108,7 @@
                 console.log(cookie);
                 clearInterval(inter);
             }
-        }, 1000);
+        }, 2000);
     </script>
 </head>
 <body>
@@ -89,7 +117,7 @@
     makeToast('Sukces', 'Zalogowano jako \<b\><?php echo $_SESSION['User']['name'] ?>\</b\>', 3);
     <?php endif; ?>
 </script>
-<div id="wrapper">
+<div id="wrapper" class="i18_links">
     <nav class="navbar-default navbar-static-side" role="navigation">
         <div class="sidebar-collapse">
             <ul class="nav metismenu" id="side-menu">
@@ -106,15 +134,14 @@
                         IN+
                     </div>
                 </li>
-                <?= $this->navigation('navigation')->menu()->setMinDepth(0)->setMaxDepth(3)->setUlClass('nav metismenu js-menu') ?>
+                <?= $this->navigation('navigation')->menu()->setMinDepth(0)->setMaxDepth(3)->setUlClass('nav metismenu js-menu')->setPartial('partial/navigation') ?>
             </ul>
 
         </div>
     </nav>
-
     <div id="page-wrapper" class="gray-bg">
         <div class="row border-bottom">
-            <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0; background-color: #263949;">
                 <div class="navbar-header">
                     <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                     <form role="search" class="navbar-form-custom" method="post" action="#">
@@ -130,17 +157,12 @@
                         </a>
                     </li>
                 </ul>
-
             </nav>
         </div>
+        <?= $this->navigation('navigation')->breadcrumbs()->setMinDepth(0)->setPartial('partial/breadcrumb') ?>
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
-                <div class="col-lg-12">
-                    <?= $this->navigation('navigation')->breadcrumbs()->setMinDepth(0)->setPartial('partial/breadcrumb') ?>
-                    <div class="text-center m-t-lg">
-                        <?= $this->content ?>
-                    </div>
-                </div>
+                <?= $this->content ?>
             </div>
         </div>
         <div class="footer">
@@ -151,25 +173,21 @@
                 <strong>Copyright</strong> Example Company &copy; 2014-2017
             </div>
         </div>
-
     </div>
 </div>
 <?= $this->inlineScript() ?>
 <script>
-    $(document).ready(function () {
-        $('.collapse').addClass('nav nav-second-level');
-        for (var i = 0; i < $('.js-menu').children().length; i++) {
-            var child = $($($('.js-menu').children()[i]).children()[0]);
-            child.html(addIcon(child.html()) + '<span class="nav-label">' + child.html() + '</span>');
-        }
+    $.i18n.init({
+        resGetPath: 'locales/__lng__.json',
+        load: 'unspecific',
+        fallbackLng: false,
+        lng: 'pl'
+    }, function (t){
+        $('.i18_links').i18n();
     });
+    $(document).ready(function () {
 
-    function addIcon(name) {
-        switch(name) {
-            case 'Home': return '<i class="fa fa-home"></i>';
-            case 'Application': return '<i class="fa fa-laptop"></i>';
-        }
-    }
+    });
 </script>
 </body>
 </html>
