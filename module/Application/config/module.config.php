@@ -20,10 +20,10 @@ use Zend\ServiceManager\Factory\InvokableFactory;
 return [
     'router' => [
         'routes' => [
-            'home' => [
+            'admin' => [
                 'type' => Literal::class,
                 'options' => [
-                    'route' => '/',
+                    'route' => '/admin',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
                         'action' => 'index',
@@ -36,6 +36,36 @@ return [
                     'route' => '/application[/:action]',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
+                        'action' => 'index',
+                    ],
+                ],
+            ],
+            'map' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/map[/:action[/:id]]',
+                    'defaults' => [
+                        'controller' => Controller\MapController::class,
+                        'action' => 'index',
+                    ],
+                ],
+            ],
+            'mail' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/mail[/:action[/:id[/:folder]]]',
+                    'defaults' => [
+                        'controller' => Controller\MailController::class,
+                        'action' => 'index',
+                    ],
+                ],
+            ],
+            'file' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/file[/:action[/:id]]',
+                    'defaults' => [
+                        'controller' => Controller\FileController::class,
                         'action' => 'index',
                     ],
                 ],
@@ -129,11 +159,104 @@ return [
         'default' => [
             [
                 'label' => 'Home',
-                'route' => 'home',
+                'route' => 'admin',
+                'icon' => 'fa fa-home'
+            ],
+            [
+                'label' => 'JakZjem-Mapa.pl',
+                'route' => 'map',
+                'icon' => 'fa fa-map',
+                'pages' => [
+                    [
+                        'label' => 'Dashboard',
+                        'route' => 'map',
+                        'action' => 'index',
+                        'icon' => 'fa fa-dashboard'
+                    ],
+                    [
+                        'label' => 'Statystyki',
+                        'route' => 'map',
+                        'action' => 'statistics',
+                        'icon' => 'fa fa-line-chart'
+                    ],
+                    [
+                        'label' => 'Punkty',
+                        'route' => 'map',
+                        'action' => 'points',
+                        'icon' => 'fa fa-circle',
+                        'pages' => [
+                            [
+                            'label' => 'Edytuj',
+                            'route' => 'map',
+                            'action' => 'editPoint',
+                            ],
+                        ],
+                    ],
+                    [
+                        'label' => 'Miasta',
+                        'route' => 'map',
+                        'action' => 'towns',
+                        'icon' => 'fa fa-building',
+                        'pages' => [
+                            [
+                                'label' => 'Edytuj',
+                                'route' => 'map',
+                                'action' => 'editTown',
+                            ],
+                        ],
+                    ],
+                    [
+                        'label' => 'Użytkownicy',
+                        'route' => 'map',
+                        'action' => 'users',
+                        'icon' => 'fa fa-group',
+                        'pages' => [
+                            [
+                                'label' => 'Edytuj',
+                                'route' => 'map',
+                                'action' => 'editUser',
+                            ],
+                        ],
+                    ],
+                    [
+                        'label' => 'Pliki',
+                        'route' => 'map',
+                        'action' => 'files',
+                        'icon' => 'fa fa-file'
+                    ],
+                    [
+                        'label' => 'Crony',
+                        'route' => 'map',
+                        'action' => 'crons',
+                        'icon' => 'fa fa-tasks'
+                    ],
+                    [
+                        'label' => 'Edytuj',
+                        'route' => 'map',
+                        'action' => 'editPoint',
+                    ],
+                    [
+                        'label' => 'Dodaj nowy',
+                        'route' => 'map',
+                        'action' => 'add',
+                        'icon' => 'fa fa-plus'
+                    ],
+                ],
+            ],
+            [
+                'label' => 'Skrzynka mailowa',
+                'route' => 'mail',
+                'icon' => 'fa fa-envelope'
+            ],
+            [
+                'label' => 'Manager plików',
+                'route' => 'file',
+                'icon' => 'fa fa-files-o'
             ],
             [
                 'label' => 'Application',
                 'route' => 'application',
+                'icon' => 'fa fa-th-large',
                 'pages' => [
                     [
                         'label'  => 'Index',
@@ -147,12 +270,20 @@ return [
                     ],
                 ],
             ],
+            [
+                'label' => 'Front',
+                'route' => 'home',
+                'icon' => 'fa fa-star'
+            ],
         ],
     ],
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
-            Controller\AuthController::class => Factory\AuthControllerFactory::class
+            Controller\AuthController::class => Factory\AuthControllerFactory::class,
+            Controller\MapController::class => Factory\MapControllerFactory::class,
+            Controller\MailController::class => Factory\MailControllerFactory::class,
+            Controller\FileController::class => Factory\FileControllerFactory::class,
         ],
     ],
     'doctrine' => [
@@ -179,9 +310,9 @@ return [
         'locale' => LOCALE,
         'translation_file_patterns' => [
             [
-                'type' => 'gettext',
-                'base_dir' => ROOT_PATH . '/module/Application/language',
-                'pattern' => '%s.mo',
+                'type' => 'php',
+                'base_dir' => ROOT_PATH . '/vendor/zendframework/zend-i18n-resources/languages/pl',
+                'pattern' => '%s.php',
             ],
         ],
     ],
